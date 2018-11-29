@@ -20,13 +20,16 @@ find_package(catkin REQUIRED COMPONENTS
 
 catkin_package()
 
-include_directories(${catkin_INCLUDE_DIRS})
-
-add_executable(ros_tello_driver src/udp_client.cpp )
-
-target_link_libraries(ros_tello_driver ${catkin_LIBRARIES})
+include_directories(include ${catkin_INCLUDE_DIRS})
 
 
+add_executable(ros_tello src/udp_client.cpp )
+
+target_link_libraries(ros_tello ${catkin_LIBRARIES})
+
+install(DIRECTORY launch
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
+)
 
 
 

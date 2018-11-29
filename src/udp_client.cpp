@@ -26,10 +26,14 @@ UDPClient::~UDPClient()
 
 }
 
-void UDPClient::send(const unsigned char data [])
+void UDPClient::send( unsigned char data [])
 {
 
-    socket.send_to(boost::asio::buffer(data, sizeof(data)), remote_endpoint);
+    int data_length = (unsigned) strlen((char*)data);
+    ROS_INFO("Data Length = % d", data_length);
+    ROS_INFO("Data: %s", data);
+
+    socket.send_to(boost::asio::buffer(data, data_length), remote_endpoint);
 
 }
 
@@ -43,7 +47,7 @@ void UDPClient::receive()
 int main (int argc, char ** argv)
 {
 
-ros::init(argc, argv, "tello_udp_client ");
+  ros::init(argc, argv, "tello_udp_client ");
   boost::asio::io_service io_service;
 
   UDPClient client(io_service, IPADDRESS, UDP_PORT);
@@ -51,7 +55,13 @@ ros::init(argc, argv, "tello_udp_client ");
   try
   {
 
-      const char connect_command[] =  "conn_req:\x96\x17";
+       int cmd_one = std::hex << 96;
+       int cmd_two = std::hex << 17;
+       char connect_command[] =  "conn_req:";
+
+      int command_length = (unsigned) strlen(connect_command);
+     
+      ROS_INFO("Size of command: %d", command_length);
 
 
       unsigned char connection_req [sizeof(connect_command)];

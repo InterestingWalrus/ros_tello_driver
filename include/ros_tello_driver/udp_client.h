@@ -9,7 +9,7 @@
 #include <ros/ros.h>
 
 #define IPADDRESS "192.168.0.1"
-#define UDP_PORT "1234"
+#define UDP_PORT "8889"
 
 
 using boost::asio::ip::udp;
@@ -24,7 +24,7 @@ class UDPClient
   public:
         UDPClient(boost::asio::io_service& io_service, 	std::string host,   std::string port);
         ~UDPClient();
-        void send(const unsigned char data [] );
+        void send( unsigned char data [] );
         void receive();
        // void receive(const boost::system::error_code& error, size_t bytes_transferred);
         //void reciever();
@@ -41,7 +41,6 @@ class UDPClient
   udp::endpoint sender_endpoint;
   boost::array<char, 1024> recv_buffer ;
  
-
 
 };
 
