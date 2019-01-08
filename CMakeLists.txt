@@ -23,7 +23,7 @@ catkin_package()
 include_directories(include ${catkin_INCLUDE_DIRS})
 
 
-add_executable(ros_tello src/udp_client.cpp )
+add_executable(ros_tello src/udp_client.cpp src/udp_server.cpp )
 
 target_link_libraries(ros_tello ${catkin_LIBRARIES})
 

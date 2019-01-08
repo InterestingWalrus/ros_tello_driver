@@ -8,8 +8,10 @@
 #include <thread>
 #include <ros/ros.h>
 
-#define IPADDRESS "192.168.0.1"
-#define UDP_PORT "8889"
+#define IP_ADDRESS "192.168.10.1"
+#define CMD_UDP_PORT "8889"
+#define STATE_UDP_PORT "8890"
+#define VIDEO_STREAM_PORT "11111"
 
 
 using boost::asio::ip::udp;
@@ -22,24 +24,25 @@ class UDPClient
 {
   
   public:
-        UDPClient(boost::asio::io_service& io_service, 	std::string host,   std::string port);
+        UDPClient(boost::asio::io_service& io_service, std::string host, std::string port);
         ~UDPClient();
-        void send( unsigned char data [] );
+        void send( std::string data );
         void receive();
-       // void receive(const boost::system::error_code& error, size_t bytes_transferred);
-        //void reciever();
-      //  void wait();
+        void runUDPClient();
+
 
 
 
 
   private:
 
-  boost::asio::io_service& io_service;
-  udp::socket  socket;
-  udp::endpoint remote_endpoint;
+  boost::asio::io_service& io_service;   // Manages IO
+  udp::socket  socket_;  // socket
+  udp::endpoint remote_endpoint; 
   udp::endpoint sender_endpoint;
-  boost::array<char, 1024> recv_buffer ;
+  boost::array< char, 1024> recv_buffer ;
+  boost::array< char, 1> send_buffer = {{0}} ;
+
  
 
 };

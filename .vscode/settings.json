@@ -58,5 +58,6 @@
         "typeinfo": "cpp",
         "utility": "cpp",
         "string_view": "cpp"
-    }
+    },
+    "python.linting.pylintEnabled": true
 }
