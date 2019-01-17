@@ -22,6 +22,8 @@ class udp_server
      private:
      void start_receive();
      void handle_receive(const boost::system::error_code& error, std::size_t bytes_tx);
+     char* getBuffer();
+     std::string get_Recv_Buffer();
 
      // message, error, bytes transferred
      void handle_send(boost::shared_ptr<std::string> , const boost::system::error_code& error, std::size_t bytes_tx );
@@ -29,6 +31,7 @@ class udp_server
      udp::socket socket_;
      udp::endpoint remote_endpoint;
      boost::array<char, 1024> recv_buffer_;
+     std::string sample_buffer;
 
 
 };

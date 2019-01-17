@@ -3,6 +3,7 @@
 #include  <iostream>
 #include <mutex>
 #include <asio.hpp>
+#include "std_msgs/String.h"
 
 #include "ros_tello_driver/udp_client.h"
 #include "ros_tello_driver/udp_server.h"
@@ -17,6 +18,13 @@ class Tello_Driver
 
     public:
     Tello_Driver();
+    ~Tello_Driver();
+    void stateCallback(size_t state_); // change to callbacks later. 
+    void process_state_packet(size_t state_);
+    void process_video_packets(size_t video_);
+    void activate_drone();
+    void keep_drone_alive() // Tello will autoland if nothing is heardfor 15 seconds
+
 
 
 
