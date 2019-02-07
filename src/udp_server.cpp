@@ -16,7 +16,7 @@ void udp_server::start_receive()
 
     std::cout<< "receiving" << std::endl;
 
-   socket_.async_receive_from( boost::asio::buffer(sample_buffer), remote_endpoint, 
+   socket_.async_receive_from( boost::asio::buffer(recv_buffer_), remote_endpoint, 
                                  boost::bind(&udp_server::handle_receive, this, boost::asio::placeholders::error,
                                  boost::asio::placeholders::bytes_transferred));
 }
@@ -50,7 +50,7 @@ void udp_server::handle_send(boost::shared_ptr<std::string> , const boost::syste
 
 std::string udp_server::get_Recv_Buffer()
 {
-
-    return sample_buffer;
+    std::string data(recv_buffer_.begin(), recv_buffer_.end());
+    return data;
 
 }
