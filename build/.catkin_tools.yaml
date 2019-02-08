@@ -1,0 +1,6 @@
+devel_space: /home/rosboxone/catkin_ws/src/ros_tello_driver/devel
+install: false
+install_space: /home/rosboxone/catkin_ws/src/ros_tello_driver/install
+profile: default
+source_space: /home/rosboxone/catkin_ws/src/ros_tello_driver/src
+workspace: /home/rosboxone/catkin_ws/src/ros_tello_driver

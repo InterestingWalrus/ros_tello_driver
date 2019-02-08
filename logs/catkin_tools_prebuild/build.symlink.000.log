@@ -1,0 +1,8 @@
+Symlinking /home/rosboxone/catkin_ws/src/ros_tello_driver/devel/./setup.zsh
+Symlinking /home/rosboxone/catkin_ws/src/ros_tello_driver/devel/./setup.bash
+Symlinking /home/rosboxone/catkin_ws/src/ros_tello_driver/devel/./setup.sh
+Symlinking /home/rosboxone/catkin_ws/src/ros_tello_driver/devel/./_setup_util.py
+Symlinking /home/rosboxone/catkin_ws/src/ros_tello_driver/devel/./env.sh
+Symlinking /home/rosboxone/catkin_ws/src/ros_tello_driver/devel/share/catkin_tools_prebuild/cmake/catkin_tools_prebuildConfig-version.cmake
+Symlinking /home/rosboxone/catkin_ws/src/ros_tello_driver/devel/share/catkin_tools_prebuild/cmake/catkin_tools_prebuildConfig.cmake
+Symlinking /home/rosboxone/catkin_ws/src/ros_tello_driver/devel/lib/pkgconfig/catkin_tools_prebuild.pc

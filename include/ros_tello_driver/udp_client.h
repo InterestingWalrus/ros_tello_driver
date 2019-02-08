@@ -27,6 +27,7 @@ class UDPClient
         UDPClient(boost::asio::io_service& io_service, std::string host, std::string port);
         ~UDPClient();
         void send( std::string data );
+         void send_buf(boost::array<unsigned char, 1024> buf);
         void receive();
         void runUDPClient();
 

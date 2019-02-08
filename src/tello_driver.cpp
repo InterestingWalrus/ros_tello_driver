@@ -3,17 +3,14 @@
 TelloDriver::TelloDriver()
 {
 
-    UDPClient udp_client(io_service_, IP_ADDRESS, CMD_UDP_PORT);
-   udp_server state_server(io_service_, 8890);
-   udp_server video_server(io_service_, 11111);
-
     state_thread = std::thread(
     [&]()
     {
 
         for (;;)
         {
-            string r = state_server.get_Recv_Buffer();
+            //string r = state_server.get_Recv_Buffer();
+            size_t r = state_socket.receive(boost::asio::buffer(state_buffer_, max_length_));
             mutex_.lock();
             process_state_packet(r);
             mutex_.unlock();
@@ -28,7 +25,8 @@ TelloDriver::TelloDriver()
 
         for (;;)
         {
-            string r = video_server.get_Recv_Buffer();
+           // string r = video_server.get_Recv_Buffer();
+            size_t r = video_socket.receive(boost::asio::buffer(video_buffer_, max_length_));
             mutex_.lock();
             process_video_packets(r);
             mutex_.unlock();
@@ -64,7 +62,7 @@ TelloDriver::~TelloDriver()
 
 }
 
-void TelloDriver::process_state_packet(std::string state_)
+void TelloDriver::process_state_packet(size_t state_)
 {
 
     state_recv_time = ros::Time::now();
@@ -72,31 +70,34 @@ void TelloDriver::process_state_packet(std::string state_)
     if(!connected)
     {
         //ROS_INFO("Receiving state %s", state_);
-        std::cout << "receiving state: " << state_ << std::endl;
+        std::cout << "receiving drone state: " << state_ << std::endl;
         connected = true;
+        ros::Duration(0.1).sleep();
+
     }
 
 }
 
-void TelloDriver::process_video_packets(std::string video_)
+void TelloDriver::process_video_packets(size_t video_)
 {
     video_recv_time = ros::Time::now();
 
     if(!streaming)
     {
         //ROS_INFO("Receiving state %s", state_);
-        std::cout << "receiving state: " << video_ << std::endl;
+        std::cout << "receiving  video state: " << video_ << std::endl;
         streaming = true;
+        ros::Duration(0.1).sleep();
     }
 
 }
 
 void TelloDriver::activate_drone()
 {
-    if(connected && ros::Time::now() - state_recv_time < ros::Duration(10))
+    if(connected && ros::Time::now() - state_recv_time > ros::Duration(5,0))
     {
 
-        ROS_ERROR("Drone no longer connected");
+         ROS_ERROR("Drone no longer connected");
          connected = false;
 
         // Nothing receicved for 10 seconds, 
@@ -104,12 +105,12 @@ void TelloDriver::activate_drone()
 
     }
 
-     if(connected && ros::Time::now() - state_recv_time < ros::Duration(10))
+     if(connected && ros::Time::now() - state_recv_time > ros::Duration(5,0))
     {
          // Nothing receicved for 10 seconds, 
         // Assume drone isn't streaming anymore
 
-              ROS_ERROR("Drone no longer streaming");
+           ROS_ERROR("Drone no longer streaming");
             streaming  = false;
     }
 
@@ -118,9 +119,10 @@ void TelloDriver::activate_drone()
     {
         std::cout<< "Activating SDK" << std::endl;
         udp_client.send("command");
+         //std::cout<< "Here?" << std::endl;
         
         // receive response from drone
-        udp_client.receive();
+        //udp_client.receive();
 
     }
 
@@ -130,7 +132,7 @@ void TelloDriver::activate_drone()
         udp_client.send("streamon");
         
         // receive response from drone
-        udp_client.receive();
+       // udp_client.receive();
 
     }
 
@@ -142,7 +144,38 @@ void TelloDriver::keep_drone_alive()
     if(connected && streaming)
     {
         ROS_INFO("Keep drone in the air");
-        udp_client.send("command");
+
+        unsigned int arr[] = { 0xCC, 0x60, 0x00, 0x27, 0x68, 0x55, 0x00, 0xE5, 0x01, 0x00, 0xBA, 0xC7 };
+
+        boost::array<unsigned char, 1024> buf = { 0xCC, 0x58, 0x00, 0x7C, 0x68, 0x54, 0x00, 0xE4, 0x01, 0xC2, 0x16 };
+        
+        //char buf[200];
+
+        // io::stream<io::array_sink> as(buf);
+
+        // as << boost::format("%02X-%02X-%02X-%02X-%02X-%02X-%02X-%02X-%02X-%02X-%02X")
+        // % arr[0]
+        // % arr[1]
+        // % arr[2]
+        // % arr[3]
+        // % arr[4]
+        // % arr[5]
+        // % arr[6]
+        // % arr[7]
+        // % arr[8]
+        // % arr[9]
+        // % arr[10]
+        //  % arr[10];
+
+        //  std::cout.write(buf, as.tellp());
+       // std::cout.write(buf.data(), 1024);
+
+
+        udp_client.send("land");
+       // udp_client.send_buf(buf);
+
+       // udp_client.receive();
+
     }
 }
 
@@ -159,6 +192,8 @@ int main (int argc, char ** argv)
 
    while(ros::ok())
    {
+
+       telloDriver.run();
        ros::spinOnce();
 
        loop_rate.sleep();
@@ -168,3 +203,4 @@ int main (int argc, char ** argv)
 
     return 0;
 }
+

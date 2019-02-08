@@ -13,6 +13,8 @@ UDPClient::UDPClient(boost::asio::io_service& io_service, std::string host, std:
     udp::resolver::iterator iter = resolver.resolve(query);
     remote_endpoint = *iter;
 
+    ROS_INFO("Called UDP CLient");
+
 }
 
 UDPClient::~UDPClient()
@@ -29,6 +31,16 @@ void UDPClient::send( std::string data)
    socket_.send_to(boost::asio::buffer(data), remote_endpoint);
 
 }
+
+void UDPClient::send_buf(boost::array<unsigned char, 1024> buf)
+{
+
+  ROS_INFO("HERE");
+   
+   socket_.send_to(boost::asio::buffer(buf, 1024), remote_endpoint);
+
+}
+
 
 void UDPClient::runUDPClient()
 {
@@ -51,17 +63,16 @@ void UDPClient::runUDPClient()
 
 void UDPClient::receive()
 {
-
+  
  
   size_t len = socket_.receive_from(boost::asio::buffer(recv_buffer), sender_endpoint);
 
- 
+   std::string result;
 
-  std::string result;
 
   std::copy(recv_buffer.begin(), recv_buffer.begin()+ len , std::back_inserter(result) );
-  std::cout << "Length of received message" << len << std::endl;
-  std::cout << "Response: " << result << std::endl;
-  std::cout.write(recv_buffer.data(), len);
+  
+  std::cout<<"Drone Response  to command "<< result << std::endl;
+
 }
 
