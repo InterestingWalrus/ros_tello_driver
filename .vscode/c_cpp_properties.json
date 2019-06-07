@@ -10,7 +10,8 @@
                 "/usr/include",
                 "usr/include/x86_64-linux-gnu",
                 "${workspaceFolder}/include",
-                "/usr/include/boost"
+                "/usr/include/boost",
+                "~/catkin_ws/devel/include/ros_tello_driver"
             ],
             "name": "Linux",
             "intelliSenseMode": "gcc-x64",

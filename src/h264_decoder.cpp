@@ -1,3 +1,6 @@
+#include "ros_tello_driver/h264_decoder.h"
+#include <utility>
+
 #ifndef PIX_FMT_RGB24
 #define PIX_FMT_RGB24 AV_PIX_FMT_RGB24
 #endif
@@ -10,10 +13,16 @@
 #define CODEC_FLAG_TRUNCATED AV_CODEC_FLAG_TRUNCATED
 #endif
 
-#include "ros_tello_driver/h264_decoder.h"
-#include <utility>
+
+
 
 typedef unsigned char ubyte;
+
+/* For backward compatibility with release 9 or so of libav */
+#if (LIBAVCODEC_VERSION_MAJOR <= 54)
+#  define av_frame_alloc avcodec_alloc_frame
+#  define av_frame_free  avcodec_free_frame
+#endif
 
 
 H264Decoder::H264Decoder()

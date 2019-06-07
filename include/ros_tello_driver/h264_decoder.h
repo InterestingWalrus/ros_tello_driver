@@ -4,12 +4,10 @@ https://github.com/tilk/h264_image_transport**/
 #ifndef H264_DECODER_H
 #define H264_DECODER_H
 
-
 // for ssize_t (signed int type as large as pointer type)
 #include <cstdlib>
 #include <stdexcept>
 #include <ros/ros.h>
-
 
 extern "C"
 {
@@ -22,23 +20,6 @@ extern "C"
     #include "libavutil/samplefmt.h"
 }
 
-class H264Exception : public std::runtime_error
-{
-public:
-  H264Exception(const char* s) : std::runtime_error(s) {}
-};
-
-class H264InitFailure : public H264Exception
-{
-public:
-  H264InitFailure(const char* s) : H264Exception(s) {}
-};
-
-class H264DecodeFailure : public H264Exception
-{
-public:
-  H264DecodeFailure(const char* s) : H264Exception(s) {}
-};
 
 class H264Decoder
 {
