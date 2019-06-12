@@ -10,6 +10,6 @@ class TelloStateSocket : public TelloSocket
     private:
 
        void process_packet(size_t packet) override; // Virtual method overriding the base class TelloSocket
-      // uint8_t sdk_ver =  tello_msgs::msg::FlightData::SDK_UNKNOWN;  // Tello SDK version
+       uint8_t sdk_ver =  ros_tello_driver::FlightTelemetry::SDK_UNKNOWN;
 
 };

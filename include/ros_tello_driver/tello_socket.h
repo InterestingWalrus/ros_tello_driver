@@ -6,10 +6,11 @@
 #include <mutex>
 #include  <iostream>
 #include <boost/asio.hpp>
-#include "ros_tello_driver/tello_driver.h"
+//#include "ros_tello_driver/tello_driver.h" add to cpp
 
 using boost::asio::ip::udp;
 
+class TelloDriver;
 
 class TelloSocket
 {
@@ -24,7 +25,7 @@ class TelloSocket
         udp::socket socket_;                 // socket to open
         std::thread thread;                  // Thread for each socket; command, video and state will run individual threads
         std::mutex mutex_;                   // Blocks resource when in use
-        bool receiving = false;              // checks if packets are being received on the socket
+        bool rx = false;              // checks if packets are being received on the socket
         ros::Time   recv_time_;              // Latest receive time
         std::vector<unsigned char> buffer_ ;   // Packet buffer to store data
 
@@ -34,6 +35,7 @@ class TelloSocket
 
         }
     
+        bool receiving();
         ros::Time recv_time();        // Latest msg timestamp
         virtual void timeout();
 
