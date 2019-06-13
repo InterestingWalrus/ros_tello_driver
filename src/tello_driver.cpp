@@ -1,5 +1,4 @@
 #include "ros_tello_driver/tello_driver.h"
-
 #include "ros_tello_driver/tello_state_socket.h"
 #include "ros_tello_driver/tello_video_socket.h"
 #include "ros_tello_driver/tello_command_socket.h"

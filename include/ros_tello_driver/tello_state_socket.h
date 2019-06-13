@@ -1,4 +1,5 @@
 #include "ros_tello_driver/tello_socket.h"
+#include <ros_tello_driver/FlightTelemetry.h>
 
 
 class TelloStateSocket : public TelloSocket

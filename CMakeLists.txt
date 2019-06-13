@@ -54,7 +54,9 @@ include_directories(include ${catkin_INCLUDE_DIRS})
 
 add_executable(ros_tello
                src/tello_driver.cpp 
-               src/h264_decoder.cpp )
+               src/h264_decoder.cpp 
+               src/tello_socket.cpp
+               src/tello_state_socket.cpp)
 
 add_dependencies(ros_tello
  ros_tello_driver_generate_messages_cpp)

@@ -4,6 +4,7 @@
 #include <ros/ros.h>
 #include <iostream>
 #include <mutex>
+#include <thread>
 #include  <iostream>
 #include <boost/asio.hpp>
 //#include "ros_tello_driver/tello_driver.h" add to cpp
@@ -23,7 +24,7 @@ class TelloSocket
         TelloDriver *tello_driver;           // Pointer to driver
         boost::asio::io_service io_service_; // Manages IO for the socket
         udp::socket socket_;                 // socket to open
-        std::thread thread;                  // Thread for each socket; command, video and state will run individual threads
+        std::thread thread_;                  // Thread for each socket; command, video and state will run individual threads
         std::mutex mutex_;                   // Blocks resource when in use
         bool rx = false;              // checks if packets are being received on the socket
         ros::Time   recv_time_;              // Latest receive time
