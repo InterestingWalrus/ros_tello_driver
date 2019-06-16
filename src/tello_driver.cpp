@@ -198,7 +198,7 @@ int main (int argc, char ** argv)
     // Force flush of the stdout buffer
     setvbuf(stdout, NULL, _IONBF, BUFSIZ);
 
-   ros::init(argc, argv, "tello_ros_client ");
+   ros::init(argc, argv, "tello_ros_client");
 
     TelloDriver telloDriver;
 

@@ -1,6 +1,8 @@
 #include "ros_tello_driver/tello_socket.h"
 #include "ros_tello_driver/h264_decoder.h"
 #include <sensor_msgs/CameraInfo.h>
+#include <fstream>
+
 
 
 class TelloVideoSocket: public TelloSocket
@@ -9,6 +11,7 @@ class TelloVideoSocket: public TelloSocket
 
         void process_packet(size_t packet) override;  // overide lets compiler know that you are overriding the method is a virtual method of TelloSocket
         void decode_frames();
+        bool get_camera_info(sensor_msgs::CameraInfo &info);
 
         std::vector<unsigned char> video_seq_buffer; // Compile video packets into larger sequence
         size_t next_seq_buffer = 0; // Next available position in video buffer
@@ -18,6 +21,7 @@ class TelloVideoSocket: public TelloSocket
         ConvertRGB24 converter; // converts from YUV420P to BGR24
 
         sensor_msgs::CameraInfo camera_info_msg;
+        
 
 
 

@@ -20,6 +20,7 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 find_package(Eigen3 REQUIRED)
+find_package(OpenCV REQUIRED)
 
 add_message_files(
   FILES
@@ -56,7 +57,9 @@ add_executable(ros_tello
                src/tello_driver.cpp 
                src/h264_decoder.cpp 
                src/tello_socket.cpp
-               src/tello_state_socket.cpp)
+               src/tello_state_socket.cpp
+               src/tello_command_socket.cpp
+               src/tello_video_socket.cpp)
 
 add_dependencies(ros_tello
  ros_tello_driver_generate_messages_cpp)

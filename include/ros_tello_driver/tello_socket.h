@@ -19,8 +19,7 @@ class TelloSocket
     protected:
 
         void listen();
-        virtual void process_packet(size_t packet);
-
+        virtual void process_packet(size_t packet) = 0; // rememever to add zero to mark function as purely virtual https://stackoverflow.com/questions/3065154/undefined-reference-to-vtable
         TelloDriver *tello_driver;           // Pointer to driver
         boost::asio::io_service io_service_; // Manages IO for the socket
         udp::socket socket_;                 // socket to open
