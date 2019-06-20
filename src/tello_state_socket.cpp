@@ -71,7 +71,7 @@ void TelloStateSocket::process_packet(size_t r)
             sdk_ver = ros_tello_driver::FlightTelemetry::SDK_2_0;
         } 
 
-        ROS_INFO("Receiing state, SDK Version:  %s", sdk_map[sdk_ver].c_str());
+        ROS_INFO("Receiving state, SDK Version:  %s", sdk_map[sdk_ver].c_str());
     }
 
     // If anyone subscribes to message, send ros messages:

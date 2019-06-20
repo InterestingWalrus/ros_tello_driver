@@ -31,7 +31,7 @@ TelloDriver::TelloDriver()
      int video_port;
 
     //TODO GEt and set params here
-     nh.setParam("drone_ip", std::string("192.168.0.1"));
+     nh.setParam("drone_ip", std::string("192.168.10.1"));
      nh.setParam("drone_port", 8889);
      nh.setParam("data_port", 8890);
      nh.setParam("command_port", 38065);
@@ -130,6 +130,7 @@ void TelloDriver::spin_1s()
      // Start Drone
      // check drone states
      **********************/
+    //ROS_INFO("Here");
 
      if(!state_socket->receiving() && !command_socket-> waiting())
      {
@@ -148,14 +149,14 @@ void TelloDriver::spin_1s()
 
      bool timeout = false;
 
-     if(command_socket->waiting() && ros::Time::now() - command_socket->tx_time() > ros::Duration(COMMAND_TIMEOUT, 0) )
+     if(command_socket->waiting() && ros::Time::now() - command_socket->tx_time() > ros::Duration(COMMAND_TIMEOUT) )
      {
          ROS_ERROR("Command timed out");
          command_socket->timeout();
          timeout = true;
      }
 
-     if(state_socket->receiving() && ros::Time::now() - state_socket->recv_time() > ros::Duration(STATE_TIMEOUT, 0) )
+     if(state_socket->receiving() && ros::Time::now() - state_socket->recv_time() > ros::Duration(STATE_TIMEOUT) )
      {
          ROS_ERROR("No State received for 5 seconds");
          state_socket->timeout();
@@ -173,6 +174,8 @@ void TelloDriver::spin_1s()
      {
          return;
      }
+
+       //command_socket->send_command("takeoff", false);
 
      keep_drone_alive();
 }

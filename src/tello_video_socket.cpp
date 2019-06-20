@@ -89,9 +89,10 @@ void TelloVideoSocket::decode_frames()
 
                  
                 // COnvert Pixels from YUV420P to BGR24
-                int size = converter.predict_size(frame.width, frame.height);
+               // int size = converter.predict_size(frame.width, frame.height);
+               int size = decoder.return_size();
                 unsigned char bgr24[size];
-                converter.convert(frame, bgr24);
+               // converter.convert(frame, bgr24);
 
                 // Convert to OpenCV Matrix
                 cv::Mat mat{frame.height, frame.width, CV_8UC3, bgr24};
@@ -136,11 +137,12 @@ bool TelloVideoSocket::get_camera_info(sensor_msgs::CameraInfo &info)
 {
   // File format: 2 ints and 9 floats, separated by whitespace:
   // height width fx fy cx cy k1 k2 t1 t2 t3
+  // TODO Change file path on the parameter server.
 
     std::ifstream file;
      
 
-    file.open("../cfg/camera_info.txt");
+    file.open("/home/daniel/catkin_ws/src/ros_tello_driver/cfg/camera_info.txt");
     if(!file)
     {
         ROS_ERROR("Unable to open config file");

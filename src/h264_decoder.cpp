@@ -46,7 +46,7 @@ H264Decoder::H264Decoder()
     int err = avcodec_open2(context, codec, 0);
     if(err < 0)
     {
-        ROS_ERROR("Cannot open Coded");
+        ROS_ERROR("Cannot open Codec");
         throw ros::Exception("Cannot open Codec");
     }
 
@@ -103,7 +103,9 @@ bool H264Decoder::is_frame_available() const
 const AVFrame& H264Decoder::decode_frame()
 {
     int got_picture = 0;
-    int len = avcodec_decode_video2(context, frame, &got_picture, packet);
+   // Deprecated
+   int len = avcodec_decode_video2(context, frame, &got_picture, packet);
+
     if(len < 0 || got_picture == 0)
     {
         ROS_ERROR("Could not decode frame");
@@ -144,6 +146,7 @@ const AVFrame& ConvertRGB24::convert(const AVFrame &frame, ubyte* output_rgb)
     } 
 
     // Setup framergb with out_rgb as external buffer. Also say that we want RGB24 output.
+    //av_image_fill_arrays()
      avpicture_fill((AVPicture*)rgbFrame, output_rgb, AV_PIX_FMT_BGR24, w, h);
     // Do the conversion.
     sws_scale(context, frame.data, frame.linesize, 0, h, rgbFrame->data, rgbFrame->linesize);
@@ -167,7 +170,11 @@ int ConvertRGB24::predict_size(int w, int h)
 {
   // TODO do we need this?
   return avpicture_fill((AVPicture*)rgbFrame, nullptr, AV_PIX_FMT_BGR24, w, h);
+ 
+
+  
 }
+
 
 void disable_logging()
 {

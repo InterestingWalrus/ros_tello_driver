@@ -5,6 +5,10 @@ TelloCommandSocket::TelloCommandSocket(TelloDriver *driver, std::string drone_ip
                     remote_endpoint(boost::asio::ip::address_v4::from_string(drone_ip),drone_port), latest_send_time(ros::Time::now())
 {
    buffer_ = std::vector<unsigned char>(1024);
+
+//    ROS_INFO("here");
+//    send_command("command", true);
+//    send_command("streamon", true);
    listen();
 }
 
@@ -84,6 +88,6 @@ void TelloCommandSocket::process_packet(size_t r)
     }
     else
     {
-        ROS_WARN("Unexptected '%s'", str.c_str());
+        ROS_WARN("ROS Command Response:'%s'", str.c_str());
     }
 }

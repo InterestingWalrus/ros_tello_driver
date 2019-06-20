@@ -1,5 +1,6 @@
 #include "ros_tello_driver/tello_socket.h"
-#include "ros_tello_driver/h264_decoder.h"
+#include "ros_tello_driver/h264_decode.h"
+//#include "ros_tello_driver/h264_decoder.h"
 #include <sensor_msgs/CameraInfo.h>
 #include <fstream>
 
@@ -18,7 +19,7 @@ class TelloVideoSocket: public TelloSocket
         int seq_buffer_packet_len = 0;    // how many packets collected
 
         H264Decoder decoder;  // H264 decoder class object
-        ConvertRGB24 converter; // converts from YUV420P to BGR24
+        //ConvertRGB24 converter; // converts from YUV420P to BGR24
 
         sensor_msgs::CameraInfo camera_info_msg;
         

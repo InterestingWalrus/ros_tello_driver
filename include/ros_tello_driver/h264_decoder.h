@@ -45,8 +45,7 @@ class H264Decoder
         ssize_t parse(const unsigned char* input_data, ssize_t input_size );
         bool is_frame_available() const;
         const AVFrame& decode_frame();
-
-
+      
 
 
 
@@ -59,6 +58,9 @@ class ConvertRGB24
 
     SwsContext *context;
     AVFrame *rgbFrame;
+    uint8_t *buffer = NULL;
+    int numBytes;
+
    
 
    public:
@@ -69,6 +71,7 @@ class ConvertRGB24
       how many bytes the frame buffer is going to need. */
 
     int predict_size(int w, int h);
+    uint8_t predict_size_new(int w, int h);
 
      /*  Given a decoded frame, convert it to RGB format and fill
     out_rgb with the result. Returns a AVFrame structure holding
